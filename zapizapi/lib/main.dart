@@ -5,6 +5,7 @@ import 'package:zapizapi/ui/widgets/custom_text_button.dart';
 
 // TODO(gustavo96ma): Implementar sistema de rotas das páginas
 // TODO: Extrair o código para a login_screen
+// TODO:Implementar a register screen
 // TODO: Integrar com o Supabase
 // TODO: Login Social
 // TODO: Implementar awesome_lints
