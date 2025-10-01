@@ -9,6 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 // TODO: Extrair o código para a login_screen
 // TODO:Implementar a register screen
 // TODO: Finalizar integrar com o Supabase (try catch)
+// TODO: Criar arquitetura dessa integração
 // TODO: Login Social
 // TODO: Implementar awesome_lints
 
