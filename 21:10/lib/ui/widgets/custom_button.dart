@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 
+/// Botão customizado reutilizável
 class CustomButton extends StatelessWidget {
-  final Color backgroundColor;
-  final String buttonText;
-  final Function buttonAction;
-  final IconData? icon;
+  /// Construtor da classe [CustomButton]
   const CustomButton({
-    super.key,
     required this.backgroundColor,
     required this.buttonText,
     required this.buttonAction,
+    super.key,
     this.icon,
   });
+
+  /// Cor de fundo do botão
+  final Color backgroundColor;
+
+  /// Texto exibido no botão
+  final String buttonText;
+
+  /// Ação executada ao pressionar o botão
+  final VoidCallback buttonAction;
+
+  /// Ícone exibido no botão
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +32,7 @@ class CustomButton extends StatelessWidget {
         icon: Icon(icon, color: Colors.white),
         label: Text(
           buttonText,
-          style: TextStyle(color: Colors.white, fontSize: 20),
+          style: const TextStyle(color: Colors.white, fontSize: 20),
         ),
         style: ButtonStyle(
           backgroundColor: WidgetStatePropertyAll(backgroundColor),
@@ -30,7 +40,7 @@ class CustomButton extends StatelessWidget {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
         ),
-        onPressed: () => buttonAction(),
+        onPressed: buttonAction,
       ),
     );
   }

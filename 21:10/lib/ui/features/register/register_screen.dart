@@ -4,7 +4,9 @@ import 'package:zapizapi/ui/widgets/custom_button.dart';
 import 'package:zapizapi/ui/widgets/custom_input.dart';
 import 'package:zapizapi/ui/widgets/custom_text_button.dart';
 
+/// Tela de registro de novos usuários
 class RegisterScreen extends StatefulWidget {
+  /// Construtor da classe [RegisterScreen]
   const RegisterScreen({super.key});
 
   @override
@@ -29,7 +31,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             builder: (context, constraints) {
               return SafeArea(
                 child: Padding(
-                  padding: EdgeInsets.all(24.0),
+                  padding: const EdgeInsets.all(24),
                   child: SizedBox(
                     width: constraints.maxWidth > 768
                         ? 768
@@ -46,9 +48,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 }
 
+/// Widget do formulário de registro
 class FormWidget extends StatefulWidget {
-  const FormWidget({super.key, required this.viewModel});
+  /// Construtor da classe [FormWidget]
+  const FormWidget({required this.viewModel, super.key});
 
+  /// ViewModel associado ao formulário
   final RegisterViewModel viewModel;
 
   @override
@@ -63,8 +68,11 @@ class _FormWidgetState extends State<FormWidget> {
       child: Column(
         spacing: 4,
         children: [
-          Image(image: AssetImage('assets/logos/logo_login.png'), height: 280),
-          SizedBox(
+          const Image(
+            image: AssetImage('assets/logos/logo_login.png'),
+            height: 280,
+          ),
+          const SizedBox(
             width: double.infinity,
             child: Text('Registro', style: TextStyle(fontSize: 20)),
           ),
@@ -98,14 +106,16 @@ class _FormWidgetState extends State<FormWidget> {
           CustomButton(
             icon: widget.viewModel.isLoading ? Icons.hourglass_empty : null,
             buttonText: 'Registrar',
-            backgroundColor: Color(0xFF03A9F4),
+            backgroundColor: const Color(0xFF03A9F4),
             buttonAction: () async =>
                 widget.viewModel.registerButtonAction(context),
           ),
           CustomTextButton(
             icon: Icons.login,
             buttonText: 'Já tem uma conta? Faça login',
-            buttonAction: () => widget.viewModel.navigateToLogin(context),
+            buttonAction: () => widget.viewModel.navigateToLogin(
+              Navigator.of(context),
+            ),
           ),
         ],
       ),

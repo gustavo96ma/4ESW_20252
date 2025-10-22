@@ -7,25 +7,39 @@ import 'package:zapizapi/services/register_service.dart';
 import 'package:zapizapi/ui/widgets/custom_toast.dart';
 import 'package:zapizapi/utils/routes_enum.dart';
 
+/// ViewModel para a tela de registro
 class RegisterViewModel extends ChangeNotifier {
+  /// Construtor da classe [RegisterViewModel]
   final RegisterRepository repository = RegisterRepositoryImplementation(
     registerService: RegisterService(),
   );
 
+  /// Controladores de texto para os campos do formulário
   final TextEditingController emailController = TextEditingController();
+
+  /// Controladores de texto para os campos do formulário
   final TextEditingController passwordController = TextEditingController();
+
+  /// Controladores de texto para os campos do formulário
   final TextEditingController passwordConfirmationController =
       TextEditingController();
+
+  /// Controladores de texto para os campos do formulário
   final TextEditingController fullNameController = TextEditingController();
 
+  /// Chave global do formulário
   final formKey = GlobalKey<FormState>();
   late FToast _fToast;
   bool _isLoading = false;
+
+  /// Indica se uma operação de carregamento está em andamento
   bool get isLoading => _isLoading;
 
-  get fToast => _fToast;
+  /// Instância do FToast para exibir mensagens toast
+  FToast get fToast => _fToast;
 
-  signUp({
+  /// Realiza o registro do usuário
+  Future<void> signUp({
     required String fullName,
     required String email,
     required String password,
@@ -33,11 +47,13 @@ class RegisterViewModel extends ChangeNotifier {
     await repository.sendRegister(fullName, email, password);
   }
 
-  initToast(BuildContext context) {
+  /// Inicializa o FToast com o contexto fornecido
+  void initToast(BuildContext context) {
     _fToast = FToast();
     _fToast.init(context);
   }
 
+  /// Validador de email
   String? emailValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'O email precisa ser preenchido';
@@ -50,6 +66,7 @@ class RegisterViewModel extends ChangeNotifier {
     return null;
   }
 
+  /// Validador de senha
   String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'A senha precisa ser preenchida';
@@ -60,6 +77,7 @@ class RegisterViewModel extends ChangeNotifier {
     return null;
   }
 
+  /// Validador de nome completo
   String? fullNameValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'O nome completo precisa ser preenchido';
@@ -67,6 +85,7 @@ class RegisterViewModel extends ChangeNotifier {
     return null;
   }
 
+  /// Validador de confirmação de senha
   String? passwordConfirmationValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'A confirmação da senha precisa ser preenchida';
@@ -77,7 +96,8 @@ class RegisterViewModel extends ChangeNotifier {
     return null;
   }
 
-  registerButtonAction(BuildContext context) async {
+  /// Ação do botão de registro
+  Future<void> registerButtonAction(BuildContext context) async {
     _isLoading = true;
     notifyListeners();
     if (!formKey.currentState!.validate()) {
@@ -87,26 +107,27 @@ class RegisterViewModel extends ChangeNotifier {
     }
 
     try {
+      final navigator = Navigator.of(context);
       await signUp(
         fullName: fullNameController.text,
         password: passwordController.text,
         email: emailController.text,
       );
-      navigateToLogin(context);
+      await navigateToLogin(navigator);
       fToast.showToast(
-        child: CustomToast(
+        child: const CustomToast(
           errorText:
-              'Registro realizado com sucesso! Verifique seu email para confirmar.',
+              '''Registro realizado com sucesso! Verifique seu email para confirmar.''',
           backgroundColor: Colors.green,
           icon: Icons.check_circle,
         ),
         gravity: ToastGravity.TOP,
-        toastDuration: Duration(seconds: 4),
+        toastDuration: const Duration(seconds: 4),
       );
       _isLoading = false;
       notifyListeners();
     } on Exception catch (e) {
-      String errorText = 'Erro ao registrar, tente novamente mais tarde!';
+      var errorText = 'Erro ao registrar, tente novamente mais tarde!';
 
       if (e is AuthException && e.statusCode == '422') {
         errorText = 'Este email já está em uso. Tente outro.';
@@ -119,14 +140,15 @@ class RegisterViewModel extends ChangeNotifier {
           icon: Icons.error,
         ),
         gravity: ToastGravity.TOP,
-        toastDuration: Duration(seconds: 4),
+        toastDuration: const Duration(seconds: 4),
       );
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  void navigateToLogin(BuildContext context) {
-    Navigator.pushNamed(context, RoutesEnum.login.route);
+  /// Navega para a tela de login
+  Future<void> navigateToLogin(NavigatorState navigator) async {
+    await navigator.pushNamed(RoutesEnum.login.route);
   }
 }

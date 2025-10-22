@@ -5,10 +5,18 @@ import 'package:zapizapi/ui/widgets/custom_input.dart';
 import 'package:zapizapi/ui/widgets/custom_text_button.dart';
 import 'package:zapizapi/utils/routes_enum.dart';
 
+// TODO: Implementar obscurecer senha
+// TODO: Implementar olhinho de visualizar senha
+
+/// Tela de login
 class LoginScreen extends StatelessWidget {
+  /// Construtor da classe [LoginScreen]
   LoginScreen({super.key});
 
+  /// Controlador do campo de email
   final TextEditingController emailController = TextEditingController();
+
+  /// Controlador do campo de senha
   final TextEditingController passwordController = TextEditingController();
 
   @override
@@ -20,29 +28,29 @@ class LoginScreen extends StatelessWidget {
             return SingleChildScrollView(
               child: SafeArea(
                 child: Padding(
-                  padding: EdgeInsets.all(24.0),
+                  padding: const EdgeInsets.all(24),
                   child: SizedBox(
                     width: constraints.maxWidth > 768
                         ? 768
                         : constraints.maxWidth,
                     child: Column(
                       children: [
-                        Image(
+                        const Image(
                           image: AssetImage('assets/logos/logo_login.png'),
                           height: 280,
                         ),
-                        SizedBox(height: 18),
-                        SizedBox(
+                        const SizedBox(height: 18),
+                        const SizedBox(
                           width: double.infinity,
                           child: Text('Login', style: TextStyle(fontSize: 20)),
                         ),
-                        SizedBox(height: 18),
+                        const SizedBox(height: 18),
                         CustomInput(
                           hint: 'Digite seu email',
                           label: 'Email',
                           controller: emailController,
                         ),
-                        SizedBox(height: 18),
+                        const SizedBox(height: 18),
                         CustomInput(
                           hint: 'Digite sua senha',
                           label: 'Senha',
@@ -55,11 +63,12 @@ class LoginScreen extends StatelessWidget {
                             buttonAction: () {},
                           ),
                         ),
-                        SizedBox(height: 18),
+                        const SizedBox(height: 18),
                         CustomButton(
                           buttonText: 'Entrar',
-                          backgroundColor: Color(0xFF03A9F4),
+                          backgroundColor: const Color(0xFF03A9F4),
                           buttonAction: () async {
+                            final navigator = Navigator.of(context);
                             final supabase = Supabase.instance.client;
 
                             final response = await supabase.auth
@@ -68,14 +77,17 @@ class LoginScreen extends StatelessWidget {
                                   email: emailController.text,
                                 );
 
-                            print(response);
+                            debugPrint(response.user.toString());
+                            await navigator.pushReplacementNamed(
+                              RoutesEnum.home.route,
+                            );
                           },
                         ),
-                        SizedBox(height: 18),
+                        const SizedBox(height: 18),
                         CustomTextButton(
                           buttonText: 'Não tem uma conta? Cadastre-se',
-                          buttonAction: () {
-                            Navigator.pushNamed(
+                          buttonAction: () async {
+                            await Navigator.pushNamed(
                               context,
                               RoutesEnum.register.route,
                             ); // Named route
