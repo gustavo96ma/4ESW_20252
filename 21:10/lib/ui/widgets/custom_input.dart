@@ -40,6 +40,7 @@ class CustomInput extends StatelessWidget {
             obscureText: obsecureText,
             validator: validator,
             controller: controller,
+
             decoration: InputDecoration(
               // border: OutlineInputBorder(
               //   borderRadius: BorderRadius.circular(8.0),
@@ -66,7 +67,8 @@ class CustomInput extends StatelessWidget {
               ),
               labelText: label,
               hint: Text(hint),
-              fillColor: Colors.red,
+              fillColor: Colors.white,
+              filled: true,
             ),
           ),
         );
