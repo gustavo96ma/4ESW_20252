@@ -3,6 +3,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zapizapi/ui/widgets/custom_input.dart';
 import 'package:zapizapi/utils/routes_enum.dart';
 
+// TODO: Implementar controle de sessão
+// TODO: Melhorar Arquitatura com viewmodels e services
+
 /// Tela inicial após o login bem-sucedido
 class HomeScreen extends StatefulWidget {
   /// Construtor da classe [HomeScreen]
